@@ -1,0 +1,55 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+	config.vm.box = "ubuntu/xenial64"
+
+	config.vm.network "private_network", ip: "192.168.50.101"
+	config.vm.network "forwarded_port", guest: 3000, host: 3000
+	config.vm.network "forwarded_port", guest: 4200, host: 4200
+	config.vm.network "forwarded_port", guest: 49152, host: 49152
+	config.vm.network "forwarded_port", guest: 3306, host: 3306
+
+    # expose sources folder in vm in /app folder
+    config.vm.synced_folder "../", "/app", fsnotify: true, exclude: ["path1", "node_modules"]
+
+    # Enable the VM to use host's DNS. This is needed to resolve local machines, etc
+    config.vm.provider :virtualbox do |vb|
+        vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+        vb.customize ["modifyvm", :id, "--memory", "2048"]
+        vb.customize ["modifyvm", :id, "--cpus", "2"]
+        vb.customize ["modifyvm", :id, "--hwvirtex", "on"]
+        vb.customize ["modifyvm", :id, "--vtxvpid", "on"]
+    end
+
+    config.vm.provision "shell", inline: <<-SHELL
+        DB_USER="root"
+        DB_PASS="pass4root"
+        MARIADB_VERSION="10.1"
+
+        # Install generic Ubuntu tools, build-essential helps with node installations
+        apt-get -y -q update
+        apt-get -y -q upgrade
+        apt-get -y -q install software-properties-common htop mc build-essential
+
+        # Install node and deps
+        curl -sL https://deb.nodesource.com/setup_7.x | bash -
+		apt-get install -y nodejs
+        npm install -g @angular/cli
+        npm install
+
+        # Install and configure Maria DB
+        apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+        add-apt-repository "deb [arch=amd64,i386,ppc64el] http://mirror.host.ag/mariadb/repo/$MARIADB_VERSION/ubuntu xenial main"
+        apt-get -y -q update
+        debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password password $DB_PASS"
+        debconf-set-selections <<< "maria-db-$MARIADB_VERSION mysql-server/root_password_again password $DB_PASS"
+        apt install -y -q mariadb-server
+        sed -i "s/bind-address.*/#bind-address = 127.0.0.1/" /etc/mysql/my.cnf
+        service mysql restart
+        mysql -u $DB_USER --password=$DB_PASS -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$DB_PASS' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+
+        cd /app
+    SHELL
+
+end
