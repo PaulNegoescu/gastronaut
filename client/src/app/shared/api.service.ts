@@ -4,10 +4,8 @@ import { MockBackend } from '@angular/http/testing';
 @Injectable()
 export class ApiService {
 
-  constructor() {}
-
-  public read() {
-
+  constructor() {
+      console.log('Creating DataService');
   }
 
 }

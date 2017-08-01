@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  templateUrl: './receipe-details.component.html',
-  styleUrls: ['./receipe-details.component.scss']
+  templateUrl: './recipe-details.component.html',
+  styleUrls: ['./recipe-details.component.scss']
 })
-export class ReceipeDetailsComponent implements OnInit {
+export class RecipeDetailsComponent implements OnInit {
   pageTitle: string = "Product Details";
 
   constructor() { }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+//import { sequelize } from '../models';
+
 
 @Component({
   selector: 'bb-navigation',
@@ -11,6 +13,16 @@ export class NavigationComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
+    // sequelize
+    // .authenticate()
+    // .then(() => {
+    //   console.log('Connection has been established successfully.');
+    // })
+    // .catch(err => {
+    //   console.error('Unable to connect to the database:', err);
+    // });
+
   }
 
 }
