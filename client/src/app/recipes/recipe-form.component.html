@@ -1,3 +1,10 @@
+<style>
+    .my-drop-zone { border: dotted 3px lightgray; }
+    .nv-file-over { border: dotted 3px red; }  Default class applied to drop zones on over
+    .another-file-over-class { border: dotted 3px green; }
+
+    html, body { height: 100%; }
+</style>
 <div class="container">
   <div [hidden]="submitted">
     <h1>Recipe Form</h1>
@@ -18,19 +25,79 @@
       </div>
 
       <div class="form-group">
-        <label for="photo">Imagine</label>
-        <!-- <input type="file" class="form-control" id="coverImage" [(ngModel)]="model.coverImage" name="coverImage" > -->
-        <input type="file" class="form-control" id="photo" name="photo" [(ngModel)]="model.coverImage" ng2FileSelect [uploader]="uploader" />
-
-
+        <label for="cover">Imagine reteta (.png, .jpeg, .gif)</label>
+        <input type="file" class="form-control" name="cover" ng2FileSelect [uploader]="coverUploader" accept=".png,.jpeg,.gif" />
       </div>
+
+      <div class="col-md-9">
+          <h3>Poze</h3>
+          <p>Queue length: {{ uploader?.queue?.length }}</p>
+            <div ng2FileDrop
+                [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                (fileOver)="fileOverBase($event)"
+                [uploader]="uploader"
+                class="well my-drop-zone">
+              Base drop zone
+              <br>
+              <br>
+              <br>
+              OR
+              <br><br>
+              Single file upload<br>
+              <input type="file" name="gallery" ng2FileSelect [uploader]="uploader"   accept=".png,.jpeg,.gif" />
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th width="50%">Name</th>
+                    <th>Size</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of uploader.queue">
+                    <td><strong>{{ item?.file?.name }}</strong></td>
+                    <td>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td>
+                      <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                        <span class="glyphicon glyphicon-trash"></span> Remove
+                      </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div>
+                <div>
+                    Queue progress:
+                    <div class="progress" style="">
+                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                    </div>
+                </div>
+                <!-- <button type="button" class="btn btn-success btn-s"
+                        (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                    <span class="glyphicon glyphicon-upload"></span> Upload all
+                </button>
+                <button type="button" class="btn btn-warning btn-s"
+                        (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                </button>
+                <button type="button" class="btn btn-danger btn-s"
+                        (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                    <span class="glyphicon glyphicon-trash"></span> Remove all
+                </button> -->
+            </div>
+
+        </div>
+
+
 
       <!-- <button type="submit" class="btn btn-success" [disabled]="!recipeForm.form.valid">Submit</button> -->
 
       <!-- <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length || !recipeForm.form.valid"> -->
-        <button type="submit" class="btn btn-success btn-s" (click)="uploader.uploadAll()">
-      Submit
-</button>
+        <!-- <button type="submit" class="btn btn-success btn-s" [disabled]="!recipeForm.form.valid" (click)="uploader.uploadAll()"> Submit </button> -->
+
+        <button type="submit" class="btn btn-success btn-s" [disabled]="!recipeForm.form.valid"> Submit </button>
 
     </form>
   </div>

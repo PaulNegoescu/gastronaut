@@ -5,8 +5,7 @@ module.exports = {
     return Recipe.create({
         title: req.body.title,
         description: req.body.description,
-        cooking_time: req.body.cookingTime,
-        cover_image: req.body.coverImage
+        cooking_time: req.body.cookingTime
       })
       .then((recipe) => {
         res.status(201);

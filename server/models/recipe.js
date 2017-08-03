@@ -6,8 +6,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     description: DataTypes.STRING,
-    cooking_time: DataTypes.STRING,
-    cover_image: DataTypes.STRING
+    cooking_time: DataTypes.STRING
   }, {
     classMethods: {
       associate: (models) => {

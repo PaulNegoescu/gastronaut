@@ -1,52 +1,41 @@
-var express = require('express');
-var router = express.Router();
-var models = require('../models');
+const express = require('express');
+let router = express.Router();
+const models = require('../models');
+const crypto = require('crypto');
+const fs = require('fs');
 const recipesController = require('../controllers').recipe;
+const multer = require('multer');
+const path = require('path');
 
-var multer = require('multer');
-// set the directory for the uploads to the uploaded to
-var DIR = './uploads/';
+const DIR = './server/uploads/';
 
-
-
-var storage = multer.diskStorage({
+let storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, DIR)
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    crypto.pseudoRandomBytes(8, function (err, raw) {
+      cb(null, raw.toString('hex') + Date.now() + path.extname(file.originalname));
+    });
   }
 });
-var upload = multer({ storage: storage }).single('photo');
 
+let upload = multer({ storage: storage }).fields([
+  { name: 'cover', maxCount: 1 },
+  { name: 'gallery', maxCount: 8 }
+]);
 
-router.post('/', function (req, res, next) {
-     var path = '';
-
-
-     upload(req, res, function (err) {
-       console.log('>>>>>> BODY >>>>>>>>>>', req.body);
-    console.log('>>>>>> FILE >>>>>>>>>>', req.file);
-    console.log('>>>>>> MODELS >>>>>>>>>>', models.recipe);
-
-        if (err) {
-          // An error occurred when uploading
-          console.log(err);
-          return res.status(422).send("an Error occured")
-        }
-       // No error occured.
-        path = req.file.path;
-        recipesController.create;
-
-        return res.send(req.file.filename);
-  });
-
+router.get('/', function (req, res) {
+  res.end('file catcher example');
 });
 
-
-
-
-
+router.post('/', function (req, res) {
+  upload(req, res, function (err) {
+    if (err) {
+      return res.end(err.toString());
+    }
+    return res.send(req.file);
+  });
+});
 
 module.exports = router;
-

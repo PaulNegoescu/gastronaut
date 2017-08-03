@@ -18,6 +18,10 @@ module.exports = {
         onUpdate: 'cascade',
         onDelete: 'cascade'
       },
+      is_cover: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: 0
+      },
       path: {
         type: Sequelize.STRING
       }

@@ -1,14 +1,14 @@
 const express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
+const path = require('path');
+const favicon = require('serve-favicon');
 const logger = require('morgan');
-var cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var recipe = require('./routes/recipe');
-var fileUpload = require('./routes/fileUpload');
+const index = require('./routes/index');
+const users = require('./routes/users');
+const recipe = require('./routes/recipe');
+const fileUpload = require('./routes/fileUpload');
 
 const app = express();
 
@@ -27,9 +27,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 //create a cors middleware
 app.use(function(req, res, next) {
 //set headers to allow cross origin request.
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "http://gastro.dev:4200");
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
 
@@ -43,7 +44,7 @@ app.use('/api/upload', fileUpload);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
@@ -58,5 +59,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;

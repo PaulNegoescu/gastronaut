@@ -1,12 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Directive } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FileSelectDirective } from 'ng2-file-upload';
+import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
+import { Ng2FileDropModule }  from 'ng2-file-drop';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,7 +26,6 @@ import { RecipeFormComponent } from './recipes/recipe-form.component';
 @NgModule({
   declarations: [
     AppComponent,
-    FileSelectDirective,
     WelcomeComponent,
     NavigationComponent,
     RecipesListComponent,
@@ -36,9 +36,11 @@ import { RecipeFormComponent } from './recipes/recipe-form.component';
     NgbModule.forRoot(),
     BrowserModule,
     HttpClientModule,
+    FileUploadModule,
     FormsModule,
     HttpModule,
     AppRoutingModule,
+    Ng2FileDropModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: 'recipes', component: RecipesListComponent },
