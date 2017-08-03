@@ -35,4 +35,11 @@ node_modules
 
 # Debug log from npm
 npm-debug.log*
+
+# exclude everything
 server/uploads/*
+
+# exception to the rule
+server/uploads/.gitkeep
+
+
