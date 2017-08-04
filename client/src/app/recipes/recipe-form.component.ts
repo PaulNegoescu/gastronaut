@@ -5,12 +5,10 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IRecipe }    from './recipe';
 import { RecipeService } from './recipe.service';
+import { PictureService } from '../shared/pictures.service';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import { Ng2FileDropRejectedFile, Ng2FileDropAcceptedFile, Ng2FileDropRejections}  from 'ng2-file-drop';
-
-
-
 
 const URL = 'http://gastro.dev:3000/api/upload';
 
@@ -38,42 +36,42 @@ export class RecipeFormComponent implements OnInit {
     cookingTime: ''
   };
 
+  private addedRecipe = {};
+
   submitted = false;
 
-  ngOnInit() {
-    if (this.coverUploader.queue.length > 0) {
-        this.coverUploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
-        this.coverUploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
-          console.log('raspuns: ', response);
-        }
-    }
+  ngOnInit() {}
 
-    if (this.uploader.queue.length > 0) {
-      this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
-      this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
-        console.log('raspuns: ', response);
-      }
-    }
-  }
-
-  constructor(private _recipeService: RecipeService, private http: Http, private el: ElementRef){}
+  constructor(private _recipeService: RecipeService, private http: Http, private el: ElementRef, private _picturesService: PictureService){}
 
   onSubmit(): void {
-    console.log('model: ',this.model);
-    console.log('uploader: ',this.uploader);
-    console.log('coverUploader: ',this.coverUploader);
-
-    if (this.coverUploader.queue.length > 0) {
-      this.coverUploader.uploadAll();
-    }
-
-    if (this.uploader.queue.length > 0) {
-      this.uploader.uploadAll();
-    }
-
     this._recipeService.addRecipe(this.model)
-    .subscribe(recipe => this.model,
-               error => this.errorMessage = <any>error);
+      .subscribe( recipe => {
+        this.addedRecipe = recipe;
+        this.curstomUploader(this.coverUploader);
+        this.curstomUploader(this.uploader);
+      },
+      error => this.errorMessage = <any>error );
+  }
+
+  public curstomUploader(myUploader) {
+    if (myUploader.queue.length > 0) {
+      myUploader.uploadAll();
+
+      myUploader.onCompleteItem = (item, response, status, header) => {
+        if (status === 200) {
+          let resp = JSON.parse(response);
+          let picturesDetails = resp[Object.keys(resp)[0]][0];
+          let pictureReq = {
+            "receipe_id": this.addedRecipe['id'],
+            'is_cover': picturesDetails['fieldname'] == 'cover' ? 1 : 0,
+            "path": picturesDetails['filename']
+          }
+          console.log('aaaaaaaaa', this._recipeService);
+          this._picturesService.addPicture(pictureReq);
+        }
+      }
+    }
   }
 
   showFormControls(form: any) {

@@ -1,6 +1,7 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var recipe = sequelize.define('recipe', {
+
     title: {
       type: DataTypes.STRING,
       allowNull: false

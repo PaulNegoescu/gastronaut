@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 
 import { ApiService } from './shared/api.service';
 import { RecipeService } from './recipes/recipe.service';
+import { PictureService } from './shared/pictures.service';
 
 import { NavigationComponent } from './navigation/navigation.component';
 import { WelcomeComponent } from './welcome/welcome.component';
@@ -52,12 +53,9 @@ import { RecipeFormComponent } from './recipes/recipe-form.component';
   ],
   providers: [
     ApiService,
-    RecipeService
+    RecipeService,
+    PictureService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-console.log( 'connect to db:');
-
-

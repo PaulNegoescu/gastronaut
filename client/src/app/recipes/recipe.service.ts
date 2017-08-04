@@ -7,7 +7,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 
 import { IRecipe } from './recipe';
-
+let newRecipe;
 @Injectable()
 
 export class RecipeService {
@@ -27,11 +27,9 @@ export class RecipeService {
       return this._http
         .post(this._recipeUrl, body)
         .map((response: Response) => response.json())
-        .do(data => console.log('All: ' + JSON.stringify(data)))
+        .do(data => newRecipe = JSON.stringify(data))
         .catch(this.handleError);
-
     }
-
 
     private handleError(error: Response) {
         console.error(error);

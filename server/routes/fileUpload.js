@@ -9,6 +9,7 @@ const path = require('path');
 
 const DIR = './server/uploads/';
 
+
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, DIR)
@@ -32,9 +33,9 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res) {
   upload(req, res, function (err) {
     if (err) {
-      return res.end(err.toString());
+      return res.status(422).send("an Error occured");
     }
-    return res.send(req.file);
+    return res.json(req.files);
   });
 });
 

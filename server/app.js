@@ -9,6 +9,7 @@ const index = require('./routes/index');
 const users = require('./routes/users');
 const recipe = require('./routes/recipe');
 const fileUpload = require('./routes/fileUpload');
+const picture = require('./routes/picture');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use('/api', index);
 app.use('/users', users);
 app.use('/api/recipes', recipe);
 app.use('/api/upload', fileUpload);
+app.use('/api/pictures', picture);
 // //app.use('/s', server);
 
 
