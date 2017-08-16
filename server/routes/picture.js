@@ -4,9 +4,9 @@ let models = require('../models');
 let picturesController = require('../controllers/').picture;
 
 // list
-router.get('/', (req, res) => res.status(200).send({
-  message: 'Pictures',
-}));
+// router.get('/', (req, res) => res.status(200).send({
+//   message: 'Pictures',
+// }));
 
 
 

@@ -63,11 +63,10 @@ export class RecipeFormComponent implements OnInit {
           let resp = JSON.parse(response);
           let picturesDetails = resp[Object.keys(resp)[0]][0];
           let pictureReq = {
-            "receipe_id": this.addedRecipe['id'],
+            "recipe_id": this.addedRecipe['id'],
             'is_cover': picturesDetails['fieldname'] == 'cover' ? 1 : 0,
             "path": picturesDetails['filename']
           }
-          console.log('aaaaaaaaa', this._recipeService);
           this._picturesService.addPicture(pictureReq);
         }
       }

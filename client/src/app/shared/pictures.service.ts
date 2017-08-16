@@ -1,28 +1,21 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
-import {Http, Response, URLSearchParams} from '@angular/http';
-let newRecipe;
+import { Http, Response } from '@angular/http';
 
 @Injectable()
 
 export class PictureService {
   private _pictureUrl = 'http://gastro.dev:3000/api/pictures/';
-  constructor(private _http: Http) {  }
-
+  constructor(private _http: Http) { }
 
   addPicture(body) {
-    console.log('>>>', body, '<<<<<');
-
-
-    // !!!!!  nu face adaugarea in baza de date; consola este printata dar nu face requestul catre server
     return this._http
-        .post(this._pictureUrl, body)
-        .map((response: Response) => response.json())
-        .do(data => console.log('All: ' + JSON.stringify(data)));
-        //.catch(this.handleError);
+      .post(this._pictureUrl, body)
+      .map(response => response.json())
+      .subscribe(result => JSON.stringify(result));
   }
 
+  private handleError(error: Response) {
+      console.error(error);
+      return error.json().error;
+  }
 }
-
-
-

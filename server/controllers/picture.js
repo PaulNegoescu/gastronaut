@@ -2,8 +2,9 @@ const Picture = require('../models').picture;
 
 module.exports = {
   create(req, res) {
+    console.log('req.body: ', req.body);
     return Picture.create({
-        receipe_id: req.body.receipe_id,
+        recipe_id: req.body.recipe_id,
         is_cover: req.body.is_cover,
         path: req.body.path
       })

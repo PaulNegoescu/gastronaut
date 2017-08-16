@@ -5,9 +5,8 @@ import { HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
-
 import { IRecipe } from './recipe';
-let newRecipe;
+
 @Injectable()
 
 export class RecipeService {
@@ -19,7 +18,6 @@ export class RecipeService {
     getRecipes(): Observable<IRecipe[]> {
       return this._http.get(this._recipeUrl)
         .map((response: Response) => <IRecipe[]> response.json())
-       // .do(data => console.log('All: ' + JSON.stringify(data)))
         .catch(this.handleError);
     }
 
@@ -27,7 +25,7 @@ export class RecipeService {
       return this._http
         .post(this._recipeUrl, body)
         .map((response: Response) => response.json())
-        .do(data => newRecipe = JSON.stringify(data))
+        .do(data => JSON.stringify(data))
         .catch(this.handleError);
     }
 
