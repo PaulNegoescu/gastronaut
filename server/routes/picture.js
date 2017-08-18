@@ -11,13 +11,18 @@ let picturesController = require('../controllers/').picture;
 
 
 // router.get('/:pictureId', function(req, res, next) {
-//   models.recipe.findAll().then(function(recipes) {
-//     res.json(recipes);
+//   console.log('RES >> ',models.picture);
+//   models.picture.findAll().then(function(pics) {
+//     //res.json(recipes);
+//     console.log(res.json(pics));
 //   });
 //   return models;
 // });
 
 router.options('/', picturesController.options);
+
+router.get('/:pictureId', picturesController.list);
+router.get('/:pictureId/1', picturesController.getCover);
 
 // add
 router.post('/', picturesController.create);

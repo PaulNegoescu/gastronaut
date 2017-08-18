@@ -1,8 +1,8 @@
-import { Component, OnInit, ElementRef, Input, Directive } from '@angular/core';
+import { Component, OnInit, ElementRef, Input, Directive, ViewChild } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { Http, Response } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { IRecipe }    from './recipe';
 import { RecipeService } from './recipe.service';
 import { PictureService } from '../shared/pictures.service';
@@ -14,7 +14,8 @@ const URL = 'http://gastro.dev:3000/api/upload';
 
 @Component({
   selector: 'recipe-form',
-  templateUrl: './recipe-form.component.html'
+  templateUrl: './recipe-form.component.html',
+  styleUrls: ['./recipe-form.component.scss']
 })
 
 export class RecipeFormComponent implements OnInit {
@@ -36,15 +37,21 @@ export class RecipeFormComponent implements OnInit {
     cookingTime: ''
   };
 
+  @ViewChild('recipeForm') recipeForm: FormGroup;
+  private formStatus: boolean;
+
   private addedRecipe = {};
 
   submitted = false;
 
-  ngOnInit() {}
+  ngOnInit() {
+    //this.myForm.valueChanges.subscribe(v => this.formStatus = this.myForm.dirty);
+  }
 
   constructor(private _recipeService: RecipeService, private http: Http, private el: ElementRef, private _picturesService: PictureService){}
 
   onSubmit(): void {
+    event.preventDefault();
     this._recipeService.addRecipe(this.model)
       .subscribe( recipe => {
         this.addedRecipe = recipe;
@@ -52,12 +59,12 @@ export class RecipeFormComponent implements OnInit {
         this.curstomUploader(this.uploader);
       },
       error => this.errorMessage = <any>error );
+      this.resetForm();
   }
 
   public curstomUploader(myUploader) {
     if (myUploader.queue.length > 0) {
       myUploader.uploadAll();
-
       myUploader.onCompleteItem = (item, response, status, header) => {
         if (status === 200) {
           let resp = JSON.parse(response);
@@ -73,8 +80,12 @@ export class RecipeFormComponent implements OnInit {
     }
   }
 
-  showFormControls(form: any) {
-    return form;
+  resetForm() {
+    this.recipeForm.reset();
+    if (this.coverUploader.queue.length > 0 )
+      this.coverUploader.clearQueue();
+     if (this.uploader.queue.length > 0 )
+      this.uploader.clearQueue();
   }
 }
 

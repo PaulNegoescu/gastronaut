@@ -25,7 +25,18 @@ module.exports = {
   update(req, res) {
     console.log('DELETE ME');
   },
-  delete(req, res) {
-    console.log('DELETE ME');
+  delete(req, res) { /// TO DO
+    console.log('DELETE ME', req.params.recipeId);
+    // return Recipe.destroy({
+    //     id:  req.params.recipeId
+    //   })
+    //   .then((recipe) => {
+    //     res.status(201);
+    //     res.json(recipe);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     res.status(400).send(error);
+    //   });
   }
 };

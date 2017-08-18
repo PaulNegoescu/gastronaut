@@ -20,8 +20,34 @@ module.exports = {
   options(req, res) {
     res.send();
   },
+
+  getCover(req, res) {
+    return Picture.findAll({
+      where: {
+        'recipe_id': req.params.pictureId,
+        'is_cover': 1
+      }
+    }).then((picture) => {
+        res.status(201);
+        res.json(picture);
+    }).catch((error) => {
+        console.log(error);
+        res.status(400).send(error);
+    });
+  },
+
   list(req, res) {
-    console.log('List Of images');
+    return Picture.findAll({
+      where: {
+        'recipe_id': req.params.pictureId
+      }
+    }).then((picture) => {
+        res.status(201);
+        res.json(picture);
+    }).catch((error) => {
+        console.log(error);
+        res.status(400).send(error);
+    });
   },
   update(req, res) {
     console.log('DELETE ME');

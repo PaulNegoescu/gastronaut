@@ -10,7 +10,7 @@ const URL = 'http://gastro.dev:3000/api/upload';
     selector: 'bb-root',
     //location of our template rather than writing in-line templates.
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    styleUrls: ['shared/generic.scss','./app.component.scss']
 })
 export class AppComponent implements OnInit {
     //declare a property called fileuploader and assign it to an instance of a new fileUploader.

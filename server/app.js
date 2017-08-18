@@ -24,6 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/files', express.static(path.join(__dirname, 'uploads')));
 
 //create a cors middleware
 app.use(function(req, res, next) {
@@ -36,7 +37,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', index);
-app.use('/api', index);
+app.use('/api', index)
 app.use('/users', users);
 app.use('/api/recipes', recipe);
 app.use('/api/upload', fileUpload);

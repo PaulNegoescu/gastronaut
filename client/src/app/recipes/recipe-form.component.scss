@@ -1,0 +1,25 @@
+html, body { height: 100%; }
+
+.my-drop-zone {
+  border: dotted 3px lightgray;
+  text-align: center;
+  color: lightgray;
+  padding: 50px;
+}
+.nv-file-over {
+  border: dotted 3px red;
+}
+
+.another-file-over-class {
+  border: dotted 3px green;
+}
+
+.file-btn {
+  background: #0275d8;
+  color: #fff;
+
+  &:hover {
+    background-color: #025aa5;
+    border-color: #01549b;
+  }
+}

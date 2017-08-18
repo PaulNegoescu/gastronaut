@@ -24,7 +24,7 @@ router.options('/', recipesController.options);
 // add
 router.post('/', recipesController.create);
 
-// update
+// update TO DO
 router.post('/:recipeId', recipesController.update
 // function(req, res){
 //   models.recipe.create({
