@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { Observer } from "rxjs/Observer";
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
+import "rxjs/add/operator/share";
 
 import { IRecipe } from './recipe';
 
@@ -13,8 +15,7 @@ import { IRecipe } from './recipe';
 
 export class RecipeService {
     private _recipeUrl = 'http://gastro.dev:3000/api/recipes/';
-
-    constructor( private _http: Http) {}
+    constructor(private _http: Http) {}
 
     getRecipes(): Observable<IRecipe[]> {
       return this._http.get(this._recipeUrl)
@@ -31,11 +32,9 @@ export class RecipeService {
     }
 
     deleteRecipe(idRecipe) {
-      console.log('Sterge reteta cu id-ul: ', idRecipe);
       return this._http
         .delete(this._recipeUrl + '/' + idRecipe, idRecipe)
-        .map(response => response.json())
-        .subscribe(result => JSON.stringify(result));
+        .map(response => response.json());
     }
 
     private handleError(error: Response) {

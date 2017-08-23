@@ -1,6 +1,18 @@
 <div class="container-fluid">
 
-  <div class="col-md-12">
+
+
+  <div class="col-md-12 ">
+    <div class="addRecipeContainer">
+      <a href="#" class="btn btn-primary" id="showForm">Adauga Reteta</a>
+
+      <div id="addRecipeForm" class="slide closed">
+       <recipe-form>Formular....</recipe-form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 recipesTable">
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -12,16 +24,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let recipe of recipes">
+          <tr *ngFor="let recipe of collection | paginate: { itemsPerPage: 5, currentPage: p }">
             <td><div *ngIf="recipe.cover"><img src="http://gastro.dev:3000/files/{{recipe.cover}}" alt="{{recipe.title}}" /></div></td>
             <td><strong>{{recipe.title}}</strong></td>
             <td>{{recipe.description | slice:0:250 }} <span *ngIf="recipe.description.length > 250">&hellip;</span> </td>
             <td>
               <div class="container-fluid">
-                <!-- TO DO: Sa duca la pagina de detalii -->
-                <button type="button" class="btn btn-secondary btn-sm" >Detalii</button>
+                <a href="recipe/{{recipe.id}}" class="btn btn-secondary btn-sm" >Detalii</a>
                 <br>
-                <!-- TO DO: Sa stearga reteta + poze ... -->
                 <button type="button" class="btn btn-danger btn-sm" (click)="removeRecipe(recipe.id)">Sterge</button>
               </div>
             </td>
@@ -29,39 +39,14 @@
         </tbody>
       </table>
     </div>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
   </div>
-  <!-- <div class="container-fluid clearfix">
-    <div class="col-md-10"></div>
-    <div class="col-md-2 float-right">
-      <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item disabled">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-            <span class="sr-only">Previous</span>
-          </a>
-        </li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-            <span class="sr-only">Next</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-    </div>
-  </div> -->
 
 
 
 
 
-  <div class="col-md-12">
-    <recipe-form>Formular....</recipe-form>
-  </div>
+
 
 
 </div>

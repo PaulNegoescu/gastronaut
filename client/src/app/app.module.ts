@@ -22,6 +22,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { RecipesListComponent } from './recipes/recipes-list.component';
 import { RecipeDetailsComponent } from './recipes/recipe-details.component';
 import { RecipeFormComponent } from './recipes/recipe-form.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 
 @NgModule({
@@ -43,6 +45,7 @@ import { RecipeFormComponent } from './recipes/recipe-form.component';
     AppRoutingModule,
     Ng2FileDropModule,
     ReactiveFormsModule,
+    NgxPaginationModule,
     RouterModule.forRoot([
       { path: 'recipes', component: RecipesListComponent },
       { path: 'recipe/:id', component: RecipeDetailsComponent },
