@@ -19,15 +19,36 @@ module.exports = {
         res.status(400).send(error);
       });
   },
+
   options(req, res) {
     res.send();
   },
+
   list(req, res) {
-    console.log('List Of recipes');
+    return Recipe.findAll({
+      order: [
+        ['createdAt', 'DESC']
+      ]
+    }).then(function(recipes) {
+      res.json(recipes);
+    });
   },
+
+  listDetails(req, res) {
+    let receipeId = req.params.recipeId;
+    return Recipe.findAll({
+      where: {
+        id: receipeId
+      }
+    }).then(function(recipes) {
+      res.json(recipes);
+    });
+  },
+
   update(req, res) {
     console.log('Update ME');
   },
+
   delete(req, res) {
     let receipeId = req.params.recipeId;
     Picture.findAll({
@@ -66,6 +87,5 @@ module.exports = {
         res.status(400).send(error);
       });
     });
-
   }
 };

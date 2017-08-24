@@ -1,5 +1,32 @@
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    {{pageTitle}}
+<div class="container recipeDetails">
+  <div class="row">
+    <div *ngIf="cover" class="col-md-5 coverImg">
+      <img src="http://gastro.dev:3000/files/{{cover}}" alt="{{title}}" />
+      <div class="allPictures">
+          <img *ngFor="let picture of pictures" src="http://gastro.dev:3000/files/{{picture.path}}" alt="{{title}}" />
+      </div>
+    </div>
+    <div class="col-md-7">
+      <h1>{{title}}</h1>
+      <div><strong>Timp preparare: </strong>{{cooking_time}}</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Ingrediente:</h4>
+      <div class="ingredients">
+        <ul>
+          <li>ble bla</li>
+          <li>lorem</li>
+          <li>ipsum</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <h4>Mod de preparare:</h4>
+      <div class="description">
+        {{description}}
+      </div>
+    </div>
   </div>
 </div>

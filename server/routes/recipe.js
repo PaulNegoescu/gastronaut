@@ -4,20 +4,9 @@ var models = require('../models');
 const recipesController = require('../controllers').recipe;
 
 // list
-router.get('/', function(req, res, next) {
-  models.recipe.findAll().then(function(recipes) {
-    res.json(recipes);
-  });
-  return models;
-});
+router.get('/', recipesController.list);
 
-
-router.get('/:recipeId', function(req, res, next) {
-  models.recipe.findAll().then(function(recipes) {
-    res.json(recipes);
-  });
-  return models;
-});
+router.get('/:recipeId', recipesController.listDetails);
 
 router.options('/', recipesController.options);
 
@@ -42,9 +31,4 @@ router.post('/:recipeId', recipesController.update
 
 router.delete('/:recipeId', recipesController.delete);
 
-
-
-
-
 module.exports = router;
-

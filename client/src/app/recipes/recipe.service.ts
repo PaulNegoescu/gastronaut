@@ -23,6 +23,12 @@ export class RecipeService {
         .catch(this.handleError);
     }
 
+    getRecipesById(id): Observable<IRecipe[]> {
+      return this._http.get(this._recipeUrl + id)
+        .map((response: Response) => <IRecipe[]> response.json())
+        .catch(this.handleError);
+    }
+
     addRecipe(body): Observable<IRecipe[]> {
       return this._http
         .post(this._recipeUrl, body)

@@ -47,9 +47,9 @@ export class RecipesListComponent implements OnInit {
       this.recipes.forEach(element => {
         this._pictureService.getCover(element['id'])
           .subscribe(pictures => {
-            this.pictures = pictures;
             if(pictures.length > 0) {
-              element['cover'] = pictures[0].path;
+              this.pictures = pictures;
+               element['cover'] = pictures[0].path;
             }
           });
       });

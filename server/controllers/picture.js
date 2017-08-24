@@ -39,7 +39,8 @@ module.exports = {
   list(req, res) {
     return Picture.findAll({
       where: {
-        'recipe_id': req.params.pictureId
+        'recipe_id': req.params.pictureId,
+        'is_cover': 0
       }
     }).then((picture) => {
         res.status(201);

@@ -66,12 +66,11 @@ export class RecipeFormComponent implements OnInit {
           this.uploadAllImgDone = false;
           this.customUploader(this.uploader, false);
         }
+
+        this._recipeListComp.listReceipes();
       },
       error => this.errorMessage = <any>error );
-
-      this._recipeListComp.listReceipes();
-      document.getElementById('addRecipeForm').classList.toggle('hideForm');
-
+      document.getElementById('addRecipeForm').classList.toggle('closed');
   }
 
   private customUploader(myUploader, isCover) {
