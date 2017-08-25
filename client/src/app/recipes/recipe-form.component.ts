@@ -6,6 +6,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { IRecipe }    from './recipe';
 import { RecipeService } from './recipe.service';
 import { PictureService } from '../shared/pictures.service';
+import { IngredientsService } from '../shared/ingredients.service';
 import { RecipesListComponent } from './recipes-list.component';
 import { Observable } from 'rxjs/Rx'
 import 'rxjs/add/operator/do';
@@ -36,8 +37,12 @@ export class RecipeFormComponent implements OnInit {
     id: 1,
     title: '',
     description: '',
-    cookingTime: ''
+    cookingTime: '',
+    ingredient: '',
+    recipesIngredients: []
   };
+
+  private arrayOfIngredients: string[];
 
   @ViewChild('recipeForm') recipeForm: FormGroup;
   private formStatus: boolean;
@@ -47,9 +52,10 @@ export class RecipeFormComponent implements OnInit {
 
   ngOnInit() {
     this.recipeFormBtn();
+    this.getIngredients();
   }
 
-  constructor(private _recipeService: RecipeService, private http: Http, private el: ElementRef, private _picturesService: PictureService, private _recipeListComp:RecipesListComponent ){ }
+  constructor(private _recipeService: RecipeService, private http: Http, private el: ElementRef, private _picturesService: PictureService, private _recipeListComp:RecipesListComponent, private _ingredientsService: IngredientsService){ }
 
   onSubmit(): void {
     event.preventDefault();
@@ -114,6 +120,72 @@ export class RecipeFormComponent implements OnInit {
         document.getElementById('addRecipeForm').classList.toggle('closed');
         that.resetForm();
     });
+  }
+
+  private getIngredients() {
+    this._ingredientsService.getIngredients()
+    .subscribe(ingredients => {
+      this.arrayOfIngredients = [];
+      ingredients.forEach(element => {
+        this.arrayOfIngredients.push(element['name']);
+      });
+    },
+    error => this.errorMessage = <any>error);
+  }
+
+  private checkIngredient(myIngredient) {
+    this._ingredientsService.checkForIngredient(myIngredient)
+      .subscribe(ingredients => {
+        if(ingredients.length == 0) {
+          this._ingredientsService.addIngredient(this.model.ingredient).
+          subscribe(ingredients => {
+            this.arrayOfIngredients.push(ingredients['name']);
+            return ingredients;
+          },
+          error => this.errorMessage = <any>error);
+        } else {
+          return ingredients;
+        }
+      },
+    error => this.errorMessage = <any>error);
+  }
+
+  private addNewIngredient(this) {
+    let currentIngredient = this.model.ingredient;
+    let quantity = (<HTMLInputElement>document.getElementById('quantity')).value;
+    let unit = (<HTMLInputElement>document.getElementById('unit')).value;
+
+    let ingredientDetails = {
+      name: currentIngredient,
+      quantity: quantity,
+      unit:unit
+    }
+
+    this.model.recipesIngredients.push(ingredientDetails);
+    this.checkIngredient(currentIngredient);
+    this.resetIngredient();
+  }
+
+  private resetIngredient(){
+    (<HTMLInputElement>document.getElementById('ingredient')).value = "";
+    (<HTMLInputElement>document.getElementById('quantity')).value = "";
+    (<HTMLInputElement>document.getElementById('unit')).value = "";
+  }
+
+  private removeIngredient(removeMe) {
+    event.preventDefault();
+    this.removeArray(this.model.recipesIngredients, removeMe);
+  }
+
+  public removeArray(arr, what) {
+    var a = arguments, L = a.length, ax;
+    while (L > 1 && arr.length) {
+        what = a[--L];
+        while ((ax= arr.indexOf(what)) !== -1) {
+            arr.splice(ax, 1);
+        }
+    }
+    return arr;
   }
 }
 

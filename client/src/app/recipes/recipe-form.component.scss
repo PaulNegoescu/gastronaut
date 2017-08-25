@@ -23,3 +23,13 @@ html, body { height: 100%; }
     border-color: #01549b;
   }
 }
+
+.ingrediente > * {
+  margin-left: 5px;
+}
+
+.remove {
+  color: red;
+  font-weight: bold;
+  font-size: 20px;
+}

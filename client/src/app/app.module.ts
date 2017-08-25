@@ -16,6 +16,7 @@ import { AppComponent } from './app.component';
 import { ApiService } from './shared/api.service';
 import { RecipeService } from './recipes/recipe.service';
 import { PictureService } from './shared/pictures.service';
+import { IngredientsService } from './shared/ingredients.service';
 
 import { NavigationComponent } from './navigation/navigation.component';
 import { WelcomeComponent } from './welcome/welcome.component';
@@ -23,6 +24,7 @@ import { RecipesListComponent } from './recipes/recipes-list.component';
 import { RecipeDetailsComponent } from './recipes/recipe-details.component';
 import { RecipeFormComponent } from './recipes/recipe-form.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 
 
 
@@ -46,6 +48,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     Ng2FileDropModule,
     ReactiveFormsModule,
     NgxPaginationModule,
+    NguiAutoCompleteModule,
     RouterModule.forRoot([
       { path: 'recipes', component: RecipesListComponent },
       { path: 'recipe/:id', component: RecipeDetailsComponent },
@@ -57,7 +60,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
   providers: [
     ApiService,
     RecipeService,
-    PictureService
+    PictureService,
+    IngredientsService
   ],
   bootstrap: [AppComponent]
 })

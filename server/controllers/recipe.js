@@ -5,6 +5,7 @@ const DIR = './server/uploads/';
 
 module.exports = {
   create(req, res) {
+    console.log('>>>>>>>>>>>>>> Ingredients: ',req.body.recipesIngredients);
     return Recipe.create({
         title: req.body.title,
         description: req.body.description,
@@ -13,6 +14,12 @@ module.exports = {
       .then((recipe) => {
         res.status(201);
         res.json(recipe);
+        if (req.body.recipesIngredients.length > 0) {
+          // add step
+          // for (let value of req.body.recipesIngredients) {
+            // add ingredients
+          // }
+        }
       })
       .catch((error) => {
         console.log(error);

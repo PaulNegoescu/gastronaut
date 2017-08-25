@@ -21,6 +21,38 @@
       </div>
 
       <div class="form-group">
+        <label for="ingredients">Ingrediente:</label>
+        <input type="hidden" name="recipesIngredients" [(ngModel)] = "model.recipesIngredients" />
+        <ul *ngIf = "model.recipesIngredients.length > 0" >
+          <li *ngFor="let ingredient of model.recipesIngredients">
+            <span>{{ingredient.name}} </span>
+            <span>{{ingredient.quantity}} </span>
+            <span>{{ingredient.unit}}</span>
+            <a href="#" (click)="removeIngredient(ingredient)">
+              <strong class="remove">&times;</strong>
+            </a>
+          </li>
+        </ul>
+
+        <div class="form-inline ingrediente">
+          <input ngui-auto-complete [(ngModel)]="model.ingredient" [source]="arrayOfIngredients"  class="form-control" name="ingredient" id="ingredient" placeholder="ingredient" max-num-list="5" />
+
+          <input name="quantity" id="quantity"  class="form-control" type="number" placeholder="gramaj"/>
+
+          <select class="form-control" name="unit" id="unit">
+            <option disabled>unitate masura</option>
+            <option value="l">litru</option>
+            <option value="ml">ml</option>
+            <option value="g">grame</option>
+            <option value="mg">mg</option>
+            <option value="kg">kg</option>
+          </select>
+
+          <button type="button" class="btn btn-success" (click) = "addNewIngredient()">Adauga</button>
+        </div>
+      </div>
+
+      <div class="form-group">
         <label for="description">Descriere:</label>
         <textarea class="form-control" name="description" rows="5" id="desc" required [(ngModel)]="model.description"></textarea>
       </div>
@@ -41,7 +73,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div *ngIf="coverUploader.queue.length > 0" class="form-group">
         <label>Alte imagini:</label>
         <div ng2FileDrop
             [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"

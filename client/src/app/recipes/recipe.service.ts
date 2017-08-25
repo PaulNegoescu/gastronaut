@@ -30,6 +30,8 @@ export class RecipeService {
     }
 
     addRecipe(body): Observable<IRecipe[]> {
+      console.log("MOdel", body);
+      // TO DO : add ingredients
       return this._http
         .post(this._recipeUrl, body)
         .map((response: Response) => response.json())
