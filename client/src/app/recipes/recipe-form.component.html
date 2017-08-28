@@ -20,98 +20,100 @@
         <input type="number" class="form-control" id="cookingTime" required [(ngModel)]="model.cookingTime" name="cookingTime" placeholder="(minute)">
       </div>
 
-      <div class="form-group">
-        <label for="ingredients">Ingrediente:</label>
-        <input type="hidden" name="recipesIngredients" [(ngModel)] = "model.recipesIngredients" />
-        <ul *ngIf = "model.recipesIngredients.length > 0" >
-          <li *ngFor="let ingredient of model.recipesIngredients">
-            <span>{{ingredient.name}} </span>
-            <span>{{ingredient.quantity}} </span>
-            <span>{{ingredient.unit}}</span>
-            <a href="#" (click)="removeIngredient(ingredient)">
-              <strong class="remove">&times;</strong>
-            </a>
-          </li>
-        </ul>
+        <div class="form-group">
+          <label for="ingredients">Ingrediente:</label>
+          <input type="hidden" name="recipesIngredients" [(ngModel)] = "model.recipesIngredients" />
+          <div *ngIf = "model.recipesIngredients">
+            <ul *ngIf = "model.recipesIngredients.length > 0" >
+              <li *ngFor="let ingredient of model.recipesIngredients">
+                <span>{{ingredient.name}} </span>
+                <span>{{ingredient.quantity}} </span>
+                <span>{{ingredient.unit}}</span>
+                <a href="#" (click)="removeIngredient(ingredient)">
+                  <strong class="remove">&times;</strong>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="form-inline ingrediente">
+            <input ngui-auto-complete [(ngModel)]="model.ingredient" [source]="arrayOfIngredients"  class="form-control" name="ingredient" id="ingredient" placeholder="ingredient" max-num-list="5" />
 
-        <div class="form-inline ingrediente">
-          <input ngui-auto-complete [(ngModel)]="model.ingredient" [source]="arrayOfIngredients"  class="form-control" name="ingredient" id="ingredient" placeholder="ingredient" max-num-list="5" />
+            <input name="quantity" id="quantity"  class="form-control" type="number" placeholder="gramaj"/>
 
-          <input name="quantity" id="quantity"  class="form-control" type="number" placeholder="gramaj"/>
+            <select class="form-control" name="unit" id="unit">
+              <option disabled>unitate masura</option>
+              <option value="l">litru</option>
+              <option value="ml">ml</option>
+              <option value="g">grame</option>
+              <option value="mg">mg</option>
+              <option value="kg">kg</option>
+            </select>
 
-          <select class="form-control" name="unit" id="unit">
-            <option disabled>unitate masura</option>
-            <option value="l">litru</option>
-            <option value="ml">ml</option>
-            <option value="g">grame</option>
-            <option value="mg">mg</option>
-            <option value="kg">kg</option>
-          </select>
-
-          <button type="button" class="btn btn-success" (click) = "addNewIngredient()">Adauga</button>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="description">Descriere:</label>
-        <textarea class="form-control" name="description" rows="5" id="desc" required [(ngModel)]="model.description"></textarea>
-      </div>
-
-      <div class="form-group">
-        <label for="cover">Imagine reteta: </label><br>
-        <label class="btn btn-default file-btn btn-sm">
-          Adauga...
-          <input type="file" class="form-control" name="cover" ng2FileSelect [uploader]="coverUploader" hidden accept=".png,.jpeg,.gif,.jpg" />
-        </label>
-        <span class="small">(.png, .jpeg, .gif)</span>
-        <div *ngIf="coverUploader.queue.length > 0">
-          <span>{{coverUploader.queue[0].file.name}}</span>
-          <button type="button" class="btn btn-danger btn-sm"
-                  (click)="coverUploader.clearQueue()" [disabled]="!coverUploader.queue.length">
-              <span class="glyphicon glyphicon-trash"></span> Sterge
-          </button>
-        </div>
-      </div>
-
-      <div *ngIf="coverUploader.queue.length > 0" class="form-group">
-        <label>Alte imagini:</label>
-        <div ng2FileDrop
-            [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
-            (fileOver)="fileOverBase($event)"
-            [uploader]="uploader"
-            class="well my-drop-zone">
-          Base drop zone
-          <br><br>
-          <div>
-            <span class="small"> Or, single file upload</span>
-            <br>
-            <label class="btn btn-default file-btn btn-sm">
-              Browse
-              <input type="file" name="gallery" ng2FileSelect [uploader]="uploader" hidden  accept=".png,.jpeg,.gif,.jpg" />
-            </label>
+            <button type="button" class="btn btn-success" (click) = "addNewIngredient()">Adauga</button>
           </div>
         </div>
-        <table *ngIf="uploader.queue.length > 0" class="table">
-            <thead>
-              <tr>
-                <th width="50%">Name</th>
-                <th>Size</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of uploader.queue">
-                  <td>{{ item?.file?.name }}</td>
-                  <td>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-sm" (click)="item.remove()">
-                      <span class="glyphicon glyphicon-trash"></span> Remove
-                    </button>
-                  </td>
-              </tr>
-            </tbody>
-        </table>
-      </div>
+
+        <div class="form-group">
+          <label for="description">Descriere:</label>
+          <textarea class="form-control" name="description" rows="5" id="desc" required [(ngModel)]="model.description"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="cover">Imagine reteta: </label><br>
+          <label class="btn btn-default file-btn btn-sm">
+            Adauga...
+            <input type="file" class="form-control" name="cover" ng2FileSelect [uploader]="coverUploader" hidden accept=".png,.jpeg,.gif,.jpg" />
+          </label>
+          <span class="small">(.png, .jpeg, .gif)</span>
+          <div *ngIf="coverUploader.queue.length > 0">
+            <span>{{coverUploader.queue[0].file.name}}</span>
+            <button type="button" class="btn btn-danger btn-sm"
+                    (click)="coverUploader.clearQueue()" [disabled]="!coverUploader.queue.length">
+                <span class="glyphicon glyphicon-trash"></span> Sterge
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="coverUploader.queue.length > 0" class="form-group">
+          <label>Alte imagini:</label>
+          <div ng2FileDrop
+              [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+              (fileOver)="fileOverBase($event)"
+              [uploader]="uploader"
+              class="well my-drop-zone">
+            Base drop zone
+            <br><br>
+            <div>
+              <span class="small"> Or, single file upload</span>
+              <br>
+              <label class="btn btn-default file-btn btn-sm">
+                Browse
+                <input type="file" name="gallery" ng2FileSelect [uploader]="uploader" hidden  accept=".png,.jpeg,.gif,.jpg" />
+              </label>
+            </div>
+          </div>
+          <table *ngIf="uploader.queue.length > 0" class="table">
+              <thead>
+                <tr>
+                  <th width="50%">Name</th>
+                  <th>Size</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of uploader.queue">
+                    <td>{{ item?.file?.name }}</td>
+                    <td>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td>
+                      <button type="button" class="btn btn-danger btn-sm" (click)="item.remove()">
+                        <span class="glyphicon glyphicon-trash"></span> Remove
+                      </button>
+                    </td>
+                </tr>
+              </tbody>
+          </table>
+        </div>
+
       <button type="submit" class="btn btn-success btn-s" [disabled]="!recipeForm.form.valid"> Submit </button>
     </form>
   </div>

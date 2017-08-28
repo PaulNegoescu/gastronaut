@@ -12,7 +12,7 @@ module.exports = {
       step_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "steps", // Can be both a string representing the table name, or a reference to the model
+          model: "steps",
           key:   "id"
         },
         onUpdate: 'cascade',
@@ -21,7 +21,7 @@ module.exports = {
       ingredient_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "ingredients", // Can be both a string representing the table name, or a reference to the model
+          model: "ingredients",
           key:   "id"
         },
         onUpdate: 'cascade',
@@ -32,6 +32,14 @@ module.exports = {
       },
       unit: {
         type: Sequelize.STRING
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },

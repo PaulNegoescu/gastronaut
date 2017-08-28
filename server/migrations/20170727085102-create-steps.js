@@ -12,7 +12,7 @@ module.exports = {
       recipe_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "recipes", // Can be both a string representing the table name, or a reference to the model
+          model: "recipes",
           key:   "id"
         },
         onUpdate: 'cascade',
@@ -20,6 +20,14 @@ module.exports = {
       },
       instructions: {
         type: Sequelize.TEXT
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },

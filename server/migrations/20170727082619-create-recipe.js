@@ -18,9 +18,6 @@ module.exports = {
       cooking_time: {
         type: Sequelize.STRING
       },
-      // cover_image: {
-      //   type: Sequelize.INTEGER
-      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

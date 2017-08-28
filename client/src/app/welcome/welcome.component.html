@@ -10,3 +10,51 @@
         </div>
     </div>
 </div>
+<br>
+<br>
+
+<div class="content">
+  <h3>Instructiuni</h3>
+  <div>
+    <strong>Folder upload:</strong>
+    <code>gastro.dev:3000/api/upload</code>
+    <br>
+    <br>
+    <strong> Vagrant</strong>
+    <ul>
+      <li><code>vagrant ssh</code> - conectare la vm - din folderul vm</li>
+      <li><code>vagrant ssh -c "cd /app && npm start"</code> - conectare la masina virtuala si deschidere aplicatie in browser</li>
+      <li><code>vagrant up</code> - porneste masina virtuala</li>
+      <li><code>vagrant halt</code> - opreste masina virtuala</li>
+      <li><code>vagrant reload</code> - restarteaza vm</li>
+      <li><code>vagrant destroy</code> - distruge vm</li>
+      <li><code>vagrant fsnotify</code> - urmareste modificarile din fisiere</li>
+    </ul>
+    <br>
+    <br>
+    <strong>Sequelize</strong>
+    <br>
+    <a href="http://docs.sequelizejs.com/manual/installation/getting-started.html"><small>http://docs.sequelizejs.com/manual/installation/getting-started.html</small></a>
+    <ul>
+      <li><code>sequelize migration:create __name="nume fisier"</code> - create migrations</li>
+      <li><code>sequelize db:migrate</code> - run migrations</li>
+    </ul>
+
+  </div>
+
+  <h3>TO DO's</h3>
+  <p>
+    Fisierele pentru db au fost modificate; trebuie modificata baza de date;
+  </p>
+  <ul>
+    <li>stergere tabele din db</li>
+    <li>conectare la masina virtuala (in folderul vm)<code>vagrant ssh</code>; din folderul app (<code>cd /app</code>) se executa comanda <code>sequelize db:migrate</code></li>
+  </ul>
+  <p>
+    Adaugarea de pasi pentru o reteta; momentan retetei nu i se atreibuie nici un pas iar instructiunile de preparare se introduc in campul <code>descriere</code>.
+  </p>
+  <p>
+    Ingredientele nu sunt adaugate inca in db, aceasta operatie se va face dupa introducerea pasilor (steps) deoarece toate ingredientele tin de pasi.
+  </p>
+
+</div>

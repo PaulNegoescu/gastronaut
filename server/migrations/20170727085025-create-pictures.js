@@ -9,10 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      recipe_id: {
+      step_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "recipes", // Can be both a string representing the table name, or a reference to the model
+          model: "steps",
           key:   "id"
         },
         onUpdate: 'cascade',
